@@ -7,3 +7,11 @@ Thumbs.db
 **/ac*.env
 **/sample.md
 **/verify-sample.md
+# keel local stores (never commit a decision log)
+**/keel-store.json
+# secrets, never
+key.txt
+*-key.txt
+keys.env
+.env
+**/my-smoke.js

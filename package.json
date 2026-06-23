@@ -1,0 +1,29 @@
+{
+  "name": "eternities-devkit",
+  "version": "0.2.0",
+  "private": true,
+  "description": "small, sharp, dependency-free dev tools for lunari and eternities, built by perseus and verified by hand",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "voicecheck": "voicecheck/cli.js",
+    "mdtoc": "mdtoc/cli.js",
+    "envcheck": "envcheck/cli.js",
+    "keel": "keel/cli.js",
+    "mdterm": "mdterm/cli.js"
+  },
+  "scripts": {
+    "test": "node run-tests.js"
+  },
+  "files": [
+    "voicecheck",
+    "mdtoc",
+    "envcheck",
+    "keel",
+    "mdterm",
+    "run-tests.js",
+    "README.md"
+  ]
+}

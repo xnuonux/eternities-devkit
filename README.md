@@ -2,7 +2,7 @@
 
 small, sharp, dependency-free dev tools for our work in lunari and eternities. **built by perseus** (the fused coding agent), each one verified independently before it landed here ... a real test plus a hand-check on cases the agent did not write.
 
-node 18+. no dependencies. `npm link` and the three commands are on your path.
+node 18+. no dependencies. `npm link` and the five commands are on your path.
 
 ```bash
 git clone https://github.com/xnuonux/eternities-devkit.git
@@ -40,6 +40,27 @@ envcheck .env.example .env
 ```
 
 useful before a release, so a missing key surfaces here instead of in production.
+
+## keel
+
+stores an engineering decision with its reasoning and the alternatives you ruled out, so months later you can ask why a choice was made and get the real answer with provenance. writes to a local json file in the working directory (or a path from `$KEEL_STORE`). `decide` records one with a monotonic id, `why <topic>` reads the matches back newest-first.
+
+```bash
+keel decide --topic "database" --choice "postgres" --reasoning "acid plus jsonb, the team already knows it" --rejected "mongodb,dynamodb"
+keel why database
+```
+
+useful when the reasoning behind a call fades but the call still stands ... the keel keeps the why.
+
+## mdterm
+
+renders a subset of markdown to ansi-colored text for the terminal: headings, bold spans, inline code, fenced blocks, list items, and links. `renderMarkdown(md, { color })` returns ansi when color is on, and plain deterministic structure when color is off, which is what makes it testable.
+
+```bash
+mdterm CHANGELOG.md
+```
+
+useful for a readable preview of a doc without leaving the shell.
 
 ---
 
