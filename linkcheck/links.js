@@ -7,6 +7,26 @@ const path = require('path');
 // text may not contain brackets; target may not contain parens.
 const LINK_RE = /\[([^\]]*)\]\(([^)\s]*)\)/g;
 
+// Blank out the interior of inline code spans (text between single backticks on
+// the same line), preserving length so column positions are unaffected. A link
+// written inside backticks, like a `[text](target)` example in a doc, is then
+// not seen as a real link. An unmatched backtick is treated as literal text.
+function maskInline(line) {
+  const chars = line.split('');
+  let i = 0;
+  while (i < chars.length) {
+    if (chars[i] === '`') {
+      let j = i + 1;
+      while (j < chars.length && chars[j] !== '`') j++;
+      if (j < chars.length) { for (let k = i + 1; k < j; k++) chars[k] = ' '; i = j + 1; }
+      else break; // no closing backtick: literal, stop
+    } else {
+      i++;
+    }
+  }
+  return chars.join('');
+}
+
 // Extract every inline markdown link [text](target) from the source.
 // Returns an array of { line, col, text, target }.
 //  - line: 1-based line number
@@ -28,9 +48,12 @@ function extractLinks(markdown) {
     }
     if (inFence) continue;
 
+    // scan a copy with inline code spans blanked, so a link inside backticks is
+    // not matched. positions are preserved, so col + the image check stay correct.
+    const scan = maskInline(line);
     LINK_RE.lastIndex = 0;
     let m;
-    while ((m = LINK_RE.exec(line)) !== null) {
+    while ((m = LINK_RE.exec(scan)) !== null) {
       const idx = m.index;
       // Skip image links: an '!' immediately before the opening bracket.
       if (idx > 0 && line[idx - 1] === '!') {

@@ -51,6 +51,14 @@ function main() {
     const imageLink = links.find((l) => l.target === 'pic.png');
     assert.ok(!imageLink, 'image link must not be extracted as a link');
 
+    // A link written inside an inline code span (single backticks) must not be
+    // extracted ... it is an example in prose, not a real link. A real link on
+    // the same line is still found.
+    const inlineDoc = 'see the form `[text](target)` and also a [real](real.md) link';
+    const inlineLinks = extractLinks(inlineDoc);
+    assert.ok(!inlineLinks.some((l) => l.target === 'target'), 'link inside inline code is not extracted');
+    assert.ok(inlineLinks.some((l) => l.target === 'real.md'), 'a real link on the same line is still extracted');
+
     console.log('ok');
   } catch (e) {
     console.error('FAIL: ' + (e && e.message ? e.message : e));
