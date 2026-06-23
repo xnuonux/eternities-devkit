@@ -2,7 +2,7 @@
 
 small, sharp, dependency-free dev tools for our work in lunari and eternities. **built by perseus** (the fused coding agent), each one verified independently before it landed here ... a real test plus a hand-check on cases the agent did not write.
 
-node 18+. no dependencies. `npm link` and the five commands are on your path.
+node 18+. no dependencies. `npm link` and the six commands are on your path.
 
 ```bash
 git clone https://github.com/xnuonux/eternities-devkit.git
@@ -61,6 +61,16 @@ mdterm CHANGELOG.md
 ```
 
 useful for a readable preview of a doc without leaving the shell.
+
+## ward
+
+scans files for things that look like committed credentials: openai-style keys, aws access key ids, private-key headers, long hex or base64 blobs, and suspicious name = quoted-value assignments (where the name holds secret, token, password, or apikey). it prints `path:line:col [kind]` with a MASKED preview that never shows the full match, and exits 1 if anything is found, 0 when clean. the same family as git-secrets.
+
+```bash
+ward src/config.js app/server.js
+```
+
+useful as a last look before a commit, so a stray key surfaces here instead of in the history.
 
 ---
 

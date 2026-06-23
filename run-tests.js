@@ -12,6 +12,7 @@ const tests = [
   'envcheck/envcheck.test.js',
   'keel/keel.test.js',
   'mdterm/mdterm.test.js',
+  'ward/ward.test.js',
 ];
 
 let failed = 0;

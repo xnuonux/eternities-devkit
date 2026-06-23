@@ -12,7 +12,8 @@
     "mdtoc": "mdtoc/cli.js",
     "envcheck": "envcheck/cli.js",
     "keel": "keel/cli.js",
-    "mdterm": "mdterm/cli.js"
+    "mdterm": "mdterm/cli.js",
+    "ward": "ward/cli.js"
   },
   "scripts": {
     "test": "node run-tests.js"
@@ -23,6 +24,7 @@
     "envcheck",
     "keel",
     "mdterm",
+    "ward",
     "run-tests.js",
     "README.md"
   ]
