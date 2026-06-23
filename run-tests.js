@@ -13,6 +13,7 @@ const tests = [
   'keel/keel.test.js',
   'mdterm/mdterm.test.js',
   'ward/ward.test.js',
+  'linkcheck/links.test.js',
 ];
 
 let failed = 0;

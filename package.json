@@ -13,7 +13,8 @@
     "envcheck": "envcheck/cli.js",
     "keel": "keel/cli.js",
     "mdterm": "mdterm/cli.js",
-    "ward": "ward/cli.js"
+    "ward": "ward/cli.js",
+    "linkcheck": "linkcheck/cli.js"
   },
   "scripts": {
     "test": "node run-tests.js"
@@ -25,6 +26,7 @@
     "keel",
     "mdterm",
     "ward",
+    "linkcheck",
     "run-tests.js",
     "README.md"
   ]

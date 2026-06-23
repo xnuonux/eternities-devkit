@@ -2,7 +2,7 @@
 
 small, sharp, dependency-free dev tools for our work in lunari and eternities. **built by perseus** (the fused coding agent), each one verified independently before it landed here ... a real test plus a hand-check on cases the agent did not write.
 
-node 18+. no dependencies. `npm link` and the six commands are on your path.
+node 18+. no dependencies. `npm link` and the seven commands are on your path.
 
 ```bash
 git clone https://github.com/xnuonux/eternities-devkit.git
@@ -71,6 +71,16 @@ ward src/config.js app/server.js
 ```
 
 useful as a last look before a commit, so a stray key surfaces here instead of in the history.
+
+## linkcheck
+
+finds broken relative links in a markdown file. it reads every `[text](target)` link, skips the ones that point outward (http, https, mailto) and pure `#anchor` jumps, ignores images and anything inside a fenced code block, strips a trailing `#fragment` or `?query`, and checks that the target file actually exists next to the doc. prints `path:line:col: broken -> target` for each dead link and exits 1 if any are found.
+
+```bash
+linkcheck README.md
+```
+
+useful for the doc-heavy repos, so a renamed file does not leave a trail of dead links behind it.
 
 ---
 
