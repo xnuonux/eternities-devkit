@@ -51,6 +51,17 @@ assert.strictEqual(run([dirtyFile]).status, 1, 'dirty file -> exit 1');
 const dirtyOut = run([dirtyFile]).stdout || '';
 assert.ok(!dirtyOut.includes('sk-FAKEfake1234567890abcdEFGHij'), 'cli stdout does not leak the full key');
 
+// 6. checkFile scopes voice to prose: a .js file with a negation operator and a fake key gets a secret finding but
+//    NO voice finding (the "!" in "!==" is not an exclamation violation); a .md with a forbidden word still gets voice.
+const jsFile = path.join(dir, 'sample.js');
+fs.writeFileSync(jsFile, 'if (a !== b) { run(); }\nconst k = "sk-FAKEfake1234567890abcdEFGHij";\n');
+const jsFindings = checkFile(jsFile).findings;
+assert.ok(jsFindings.every((x) => x.tool !== 'voice'), 'no voice findings on a .js file');
+assert.ok(jsFindings.some((x) => x.tool === 'secret'), 'secret still found in a .js file');
+const mdFile = path.join(dir, 'prose.md');
+fs.writeFileSync(mdFile, 'we should leverage this\n');
+assert.ok(checkFile(mdFile).findings.some((x) => x.tool === 'voice'), 'voice still runs on a .md file');
+
 fs.rmSync(dir, { recursive: true, force: true });
 console.log('ok');
 process.exit(0);

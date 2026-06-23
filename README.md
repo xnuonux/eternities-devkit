@@ -84,7 +84,7 @@ useful for the doc-heavy repos, so a renamed file does not leave a trail of dead
 
 ## devcheck
 
-the capstone: one pre-commit gate that composes the others. it reads each file once and runs the voice lint, the secret scan, and (for markdown) the dead-link check, printing every finding as `path:line:col [tool] message` and exiting 1 if anything turned up. no new detection of its own ... it imports the three tools above, so a fix to any of them sharpens this too.
+the capstone: one pre-commit gate that composes the others. it reads each file once and runs the secret scan on everything, the voice lint on prose (`.md`, `.markdown`, `.txt`, `.mdx`, so a `!==` in code is not mistaken for an exclamation), and the dead-link check on markdown, printing every finding as `path:line:col [tool] message` and exiting 1 if anything turned up. no new detection of its own ... it imports the three tools above, so a fix to any of them sharpens this too.
 
 ```bash
 devcheck README.md src/config.js

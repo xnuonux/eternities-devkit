@@ -10,13 +10,18 @@ const { lintText } = require('../voicecheck/lint.js');
 const { scanText } = require('../ward/scan.js');
 const { checkLinks } = require('../linkcheck/links.js');
 
-// run the three checks over one file's content. returns unified findings: { tool, line, col, message }.
-// links are checked only when opts.markdown is true and a baseDir is given (relative links resolve against it).
+// run the checks over one file's content. returns unified findings: { tool, line, col, message }.
+//  - voice runs only when opts.voice !== false. the voice rules (no exclamation, no em-dash) are PROSE rules ... on a
+//    code file the exclamation rule alone flags every "!==" and "!flag", so checkFile turns voice OFF for non-prose.
+//  - secret runs on every file (a key can hide in any file type).
+//  - link runs only when opts.markdown is true and a baseDir is given (relative links resolve against it).
 function checkContent(content, opts) {
   opts = opts || {};
   const findings = [];
-  for (const v of lintText(content)) {
-    findings.push({ tool: 'voice', line: v.line, col: v.col, message: v.ruleId + ': ' + v.message });
+  if (opts.voice !== false) {
+    for (const v of lintText(content)) {
+      findings.push({ tool: 'voice', line: v.line, col: v.col, message: v.ruleId + ': ' + v.message });
+    }
   }
   for (const s of scanText(content)) {
     findings.push({ tool: 'secret', line: s.line, col: s.col, message: s.kind + ' ' + s.preview });
@@ -30,12 +35,16 @@ function checkContent(content, opts) {
   return findings;
 }
 
+const PROSE_EXT = new Set(['.md', '.markdown', '.txt', '.mdx']);
+
 // check a file on disk. returns { file, findings }. throws if the file cannot be read (the cli turns that into exit 2).
+// voice is scoped to prose files; link to markdown; secret to everything.
 function checkFile(file) {
   const content = fs.readFileSync(file, 'utf8');
   const ext = path.extname(file).toLowerCase();
-  const markdown = ext === '.md' || ext === '.markdown';
-  return { file, findings: checkContent(content, { markdown, baseDir: path.dirname(path.resolve(file)) }) };
+  const markdown = ext === '.md' || ext === '.markdown' || ext === '.mdx';
+  const prose = PROSE_EXT.has(ext);
+  return { file, findings: checkContent(content, { voice: prose, markdown, baseDir: path.dirname(path.resolve(file)) }) };
 }
 
 module.exports = { checkContent, checkFile };
