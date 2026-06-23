@@ -13,7 +13,7 @@ cd eternities-devkit && npm link && npm test
 
 ## voicecheck
 
-lints text or markdown for the house voice. flags em-dashes and en-dashes, exclamation marks, emoji (the moon is allowed), and a list of forbidden corporate verbs (execute, deploy, activate, leverage, synergy, utilize). prints `file:line:col: [rule] message` per issue, exits 1 if any are found.
+lints text or markdown for the house voice. flags em-dashes and en-dashes, exclamation marks, emoji (the moon is allowed), and a small list of forbidden corporate verbs (the kind that creep into a startup readme). prints `file:line:col: [rule] message` per issue, exits 1 if any are found.
 
 ```bash
 voicecheck docs/*.md
@@ -39,7 +39,7 @@ validates a `.env` against a `.env.example`. reports `missing` keys, `blank` (pr
 envcheck .env.example .env
 ```
 
-useful before a deploy, so a missing key surfaces here instead of in production.
+useful before a release, so a missing key surfaces here instead of in production.
 
 ---
 
