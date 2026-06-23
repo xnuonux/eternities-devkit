@@ -2,7 +2,7 @@
 
 small, sharp, dependency-free dev tools for our work in lunari and eternities. **built by perseus** (the fused coding agent), each one verified independently before it landed here ... a real test plus a hand-check on cases the agent did not write.
 
-node 18+. no dependencies. `npm link` and the seven commands are on your path.
+node 18+. no dependencies. `npm link` and the eight commands are on your path.
 
 ```bash
 git clone https://github.com/xnuonux/eternities-devkit.git
@@ -81,6 +81,16 @@ linkcheck README.md
 ```
 
 useful for the doc-heavy repos, so a renamed file does not leave a trail of dead links behind it.
+
+## devcheck
+
+the capstone: one pre-commit gate that composes the others. it reads each file once and runs the voice lint, the secret scan, and (for markdown) the dead-link check, printing every finding as `path:line:col [tool] message` and exiting 1 if anything turned up. no new detection of its own ... it imports the three tools above, so a fix to any of them sharpens this too.
+
+```bash
+devcheck README.md src/config.js
+```
+
+useful as a single hook before you commit, instead of running three commands and tracking three exit codes by hand.
 
 ---
 

@@ -14,6 +14,7 @@ const tests = [
   'mdterm/mdterm.test.js',
   'ward/ward.test.js',
   'linkcheck/links.test.js',
+  'devcheck/devcheck.test.js',
 ];
 
 let failed = 0;

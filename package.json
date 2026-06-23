@@ -14,7 +14,8 @@
     "keel": "keel/cli.js",
     "mdterm": "mdterm/cli.js",
     "ward": "ward/cli.js",
-    "linkcheck": "linkcheck/cli.js"
+    "linkcheck": "linkcheck/cli.js",
+    "devcheck": "devcheck/cli.js"
   },
   "scripts": {
     "test": "node run-tests.js"
@@ -27,6 +28,7 @@
     "mdterm",
     "ward",
     "linkcheck",
+    "devcheck",
     "run-tests.js",
     "README.md"
   ]
