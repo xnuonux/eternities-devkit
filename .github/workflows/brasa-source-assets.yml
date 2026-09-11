@@ -1,0 +1,31 @@
+name: BRASA acoustic source assets
+on:
+  push:
+    branches: [build/brasa-acoustic-vst3-20260911]
+    paths: [.github/workflows/brasa-source-assets.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Acquire pinned public sample data (no third-party code execution)
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none https://github.com/freepats/muldjordkit.git MuldjordKit
+          git -C MuldjordKit checkout --detach 719fe72bc6693b94f1229674e202881145ab44ed
+          test "$(git -C MuldjordKit rev-parse HEAD)" = 719fe72bc6693b94f1229674e202881145ab44ed
+          rm -rf MuldjordKit/.git
+          cd MuldjordKit
+          find . -type f -print0 | sort -z | xargs -0 sha256sum > ../SOURCES-SHA256SUMS.txt
+          cp ../SOURCES-SHA256SUMS.txt .
+      - name: Package source library with original license and credits
+        uses: actions/upload-artifact@v4
+        with:
+          name: BRASA-MuldjordKit-719fe72-source
+          path: MuldjordKit/
+          retention-days: 2
+          compression-level: 0
+          if-no-files-found: error
